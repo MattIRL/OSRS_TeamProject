@@ -17,8 +17,13 @@ namespace OSRS_TeamProject.Controllers
         {
             return View();
         }
-
+        [Route("[action]")]
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        [Route("[action]")]
+        public IActionResult ContactUs()
         {
             return View();
         }
