@@ -4,19 +4,18 @@
 
 <table class="table table-dark table-striped">
     <thead>
-        <tr><th>Icon</th><th>ID</th><th>Name</th><th>Qty</th><th>Notes</th></tr>
+        <tr><th>Icon</th><th>ID</th><th>Name</th><th>Qty</th><th>Description</th><th>Notes</th></tr>
     </thead>
     <tbody>
         @foreach (var it in (Model ?? Enumerable.Empty<OSRS_TeamProject.Models.InventoryItem>()))
         {
-            var icon = string.IsNullOrWhiteSpace(it.IconUrl)
-            ? Url.Content("~/img/placeholder-item.svg")
-            : it.IconUrl!;
+            var icon = string.IsNullOrWhiteSpace(it.IconUrl) ? Url.Content("~/img/placeholder-item.svg") : it.IconUrl!;
             <tr>
-                <td><img src="@icon" alt="" width="24" height="24" style="object-fit:contain" /></td>
+                <td><img src="@icon" width="24" height="24" style="object-fit:contain" /></td>
                 <td>@it.ItemId</td>
                 <td>@it.Name</td>
                 <td>@it.Quantity</td>
+                <td>@it.Description</td>
                 <td>@it.Notes</td>
             </tr>
         }
