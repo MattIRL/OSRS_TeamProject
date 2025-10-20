@@ -20,3 +20,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.rsfont {
+    font-family: "Silkscreen", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
