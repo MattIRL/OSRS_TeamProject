@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&family=Silkscreen:wght@400;700&family=Trade+Winds&display=swap" rel="stylesheet">
+    @RenderSection("Styles", required: false)  
 </head>
 <body class="bg-dark">
     <header>
@@ -31,6 +32,10 @@
                         <li class="nav-item me-3">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
                         </li>
+                        <li 
+                            class="nav-item"><a class="nav-link" href="/liam">Liam</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
