@@ -1,0 +1,87 @@
+﻿@model IEnumerable<OSRS_TeamProject.Models.InventoryItem>
+
+@{
+    ViewData["Title"] = "Liam's Inventory";
+    var search = (string?)ViewData["Search"] ?? "";
+    var minQty = (int?)ViewData["MinQty"];
+    var sort = (string?)ViewData["Sort"] ?? "name";
+    var items = Model ?? Enumerable.Empty<OSRS_TeamProject.Models.InventoryItem>();
+}
+
+@section Styles {
+    <!-- Silkscreen font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <!-- Liam theme -->
+    <link rel="stylesheet" href="~/css/liam.css" asp-append-version="true" />
+}
+
+<div class="liam-theme rsfont">
+    <div class="container-fluid p-0">
+
+        <h1 class="mb-3">@ViewData["Title"]</h1>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-sm-5">
+                <input name="search" class="form-control" placeholder="Search by name" value="@search" />
+            </div>
+            <div class="col-sm-3">
+                <input name="minQty" class="form-control" type="number" min="0" placeholder="Min qty" value="@(minQty?.ToString() ?? "")" />
+            </div>
+            <div class="col-sm-4">
+                <button class="btn btn-primary me-2" type="submit">Apply</button>
+                <a class="btn btn-secondary" href="/liam">Reset</a>
+                <a class="btn btn-success float-end" asp-action="Create">Add Item</a>
+            </div>
+        </form>
+
+        @if (!items.Any())
+        {
+            <div class="alert alert-info">
+                Your inventory is empty.
+                <a class="btn btn-sm btn-primary ms-2" asp-action="Create">Add Item</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Icon</th>
+                            <th>@Html.ActionLink("ID", "Index", new { search, minQty, sort = sort == "id" ? "id_desc" : "id" })</th>
+                            <th>@Html.ActionLink("Name", "Index", new { search, minQty, sort = sort == "name" ? "name_desc" : "name" })</th>
+                            <th>@Html.ActionLink("Qty", "Index", new { search, minQty, sort = sort == "qty" ? "qty_desc" : "qty" })</th>
+                            <th>Description</th>
+                            <th>Notes</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in items)
+                        {
+                            var icon = string.IsNullOrWhiteSpace(item.IconUrl)
+                            ? Url.Content("~/img/placeholder-item.svg")
+                            : item.IconUrl!;
+                            <tr>
+                                <td><img src="@icon" width="24" height="24" style="object-fit:contain" /></td>
+                                <td>@item.ItemId</td>
+                                <td>@item.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Description</td>
+                                <td>@item.Notes</td>
+                                <td class="text-nowrap">
+                                    <a class="btn btn-sm btn-outline-info" asp-action="Details" asp-route-id="@item.ItemId">Details</a>
+                                    <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@item.ItemId">Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>

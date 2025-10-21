@@ -1,0 +1,108 @@
+﻿@model OSRS_TeamProject.Models.InventoryItem
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@section Styles {
+    <!-- Silkscreen font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <!-- Liam theme -->
+    <link rel="stylesheet" href="~/css/liam.css" asp-append-version="true" />
+}
+
+<div class="liam-theme rsfont">
+    <h1>Edit Item</h1>
+    <hr />
+
+    <div class="row g-3 align-items-center mb-3">
+        <div class="col-auto">
+            @{
+                var icon = string.IsNullOrWhiteSpace(Model.IconUrl)
+                ? Url.Content("~/img/placeholder-item.svg")
+                : Model.IconUrl!;
+            }
+            <img id="iconPreview" src="@icon" alt="icon" width="64" height="64"
+                 style="object-fit:contain;border:1px solid #0f151c;border-radius:8px;padding:4px;background:#070b10" />
+        </div>
+        <div class="col">
+            <h2 class="h5 m-0">@Model.Name</h2>
+            <div class="text-muted">ID: @Model.ItemId</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <form asp-action="Edit" method="post" autocomplete="off">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="ItemId" />
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Item Name <span class="text-danger">*</span></label>
+                    <input asp-for="Name" class="form-control" placeholder="Item name" aria-describedby="nameHelp" />
+                    <small id="nameHelp" class="form-text text-muted">2–80 characters.</small>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Quantity -->
+                <div class="mb-3">
+                    <label asp-for="Quantity" class="form-label">Count <span class="text-danger">*</span></label>
+                    <input asp-for="Quantity" class="form-control" type="number" min="0" placeholder="0" aria-describedby="qtyHelp" />
+                    <small id="qtyHelp" class="form-text text-muted">Must be 0 or more.</small>
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Short description (≤ 300 chars)"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Notes -->
+                <div class="mb-3">
+                    <label asp-for="Notes" class="form-label">Notes</label>
+                    <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Your notes (≤ 300 chars)"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <!-- Icon URL -->
+                <div class="mb-3">
+                    <label asp-for="IconUrl" class="form-label">Icon URL <span class="text-muted">(optional)</span></label>
+                    <input asp-for="IconUrl" class="form-control" placeholder="https://static.runelite.net/cache/item/icon/{id}.png" aria-describedby="iconHelp" />
+                    <small id="iconHelp" class="form-text text-muted">Leave blank to keep current icon (or it will be set from the Item ID on save).</small>
+                    <span asp-validation-for="IconUrl" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Live icon preview when IconUrl changes
+        const iconInput = document.getElementById('IconUrl');
+        const iconImg   = document.getElementById('iconPreview');
+        const placeholderIcon = '@Url.Content("~/img/placeholder-item.svg")';
+
+        function refreshIconPreview() {
+          if (!iconImg) return;
+          iconImg.src = (iconInput && iconInput.value) ? iconInput.value : (iconImg.src || placeholderIcon);
+        }
+        if (iconInput) {
+          iconInput.addEventListener('input', refreshIconPreview);
+        }
+    </script>
+}
