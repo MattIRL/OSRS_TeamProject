@@ -1,15 +1,31 @@
-﻿.item-grid {
+﻿.center-container {
+    background: #494034;
+    margin-top: 5%;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.item-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
+    max-width: calc(8 * 100px + 9 * 10px); /* 8 items wide with 9 gaps */
+    background: #494034;
+    border-radius: 5px;
+    place-items: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .item-icon {
     position: relative;
-    width: 100px;
-    height: 100px;
-    margin-top: 10px;
-    margin-left: 10px;
+    max-width: 100px;
+    max-height: 100px;
+    background: #D9D9D9;
+    border-radius: 5px;
+    margin-top: 15px;
 }
 
 .item-icon img {
@@ -27,5 +43,5 @@
     color: black;
     padding: 1px 5px;
     font-size: 0.7rem;
-    border-radius: 2px;
+    border-radius: 5px;
 }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<OSRS_TeamProject.Models.InventoryItem>
 
 @{
-    ViewData["Title"] = "Matt's Inventory";
+    ViewData["Title"] = "Item Inventory";
     var search = (string?)ViewData["Search"] ?? "";
     var minQty = (int?)ViewData["MinQty"];
     var sort = (string?)ViewData["Sort"] ?? "name";
@@ -17,22 +17,20 @@
     <link rel="stylesheet" href="~/css/matt.css" asp-append-version="true" />
 }
 
-<div class="rsfont">
-    <div class="container-fluid p-0">
-
-        <h1 class="mb-3 text-light">@ViewData["Title"]</h1>
+<div class="rsfont center-container">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="text-light">@ViewData["Title"]</h1> 
+        <a class="btn btn-success" asp-action="Create">Add Item</a>
+        </div>
 
         <form method="get" class="row g-2 mb-3">
-            <div class="col-sm-5">
+            <div class="col-sm-5 me-2">
                 <input name="search" class="form-control" placeholder="Search by name" value="@search" />
-            </div>
-            <div class="col-sm-3">
-                <input name="minQty" class="form-control" type="number" min="0" placeholder="Min qty" value="@(minQty?.ToString() ?? "")" />
             </div>
             <div class="col-sm-4">
                 <button class="btn btn-primary me-2" type="submit">Apply</button>
-                <a class="btn btn-secondary" href="/matt">Reset</a>
-                <a class="btn btn-success float-end" asp-action="Create">Add Item</a>
+                <a class="btn btn-secondary mt-md-0 mt-sm-2" href="/matt">Reset</a>
             </div>
         </form>
 
@@ -45,16 +43,16 @@
         }
         else
         {
-            <div class="item-grid m-4" style="background: #494034; border-radius: 5px">
+            <div class="item-grid mt-2 pb-4">
                 
                 @foreach (var item in items)
                 {
                     var icon = string.IsNullOrWhiteSpace(item.IconUrl)
                     ? Url.Content("~/img/placeholder-item.svg")
-                    : item.IconUrl!;
+                    : $"https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id={item.ItemId}"!;
 
                     <div class="item-icon" title="@item.Name.ToUpper()">
-                        <a class="btn btn-sm" style="background: #D9D9D9" asp-action="Details" asp-route-id="@item.ItemId"><img src="https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id=@item.ItemId" alt="@item.Name" /></a>
+                        <a asp-action="Details" asp-route-id="@item.ItemId"><img src="@icon" alt="@item.Name" /></a>
                         <span class="qty-badge">@item.Quantity</span>
                         
                     </div>

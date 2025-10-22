@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/css/matt.css" asp-append-version="true" />
 }
 
-<div class="text-light rsfont">
+<div class="text-light rsfont center-container">
     <h1>Edit Item</h1>
     <hr />
 
@@ -25,7 +25,7 @@
                 : Model.IconUrl!;
             }
             <img id="iconPreview" src="@icon" alt="icon" width="64" height="64"
-                 style="object-fit:contain;border:1px solid #0f151c;border-radius:8px;padding:4px;background:#070b10" />
+                 style="object-fit:contain;border-radius:5px;padding:4px;background:#D9D9D9" />
         </div>
         <div class="col">
             <h2 class="h5 m-0">@Model.Name</h2>
@@ -64,7 +64,7 @@
                 </div>
 
                 <!-- Notes -->
-                <div class="mb-3">
+                <div class="mb-4">
                     <label asp-for="Notes" class="form-label">Notes</label>
                     <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Your notes (≤ 300 chars)"></textarea>
                     <span asp-validation-for="Notes" class="text-danger"></span>

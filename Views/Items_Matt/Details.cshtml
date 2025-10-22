@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/css/matt.css" asp-append-version="true" />
 }
 
-<div class="rsfont text-light">
+<div class="rsfont text-light center-container">
     <h1>Item Details</h1>
     <hr />
 
@@ -22,10 +22,10 @@
             @{
                 var icon = string.IsNullOrWhiteSpace(Model.IconUrl)
                 ? Url.Content("~/img/placeholder-item.svg")
-                : Model.IconUrl!;
+                : $"https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id={Model.ItemId}"!;
             }
             <img src="@icon" alt="icon" width="64" height="64"
-                 style="object-fit:contain;border:1px solid #0f151c;border-radius:8px;padding:4px;background:#070b10" />
+                 style="object-fit:contain;border-radius:5px;padding:4px;background:#D9D9D9" />
         </div>
         <div class="col">
             <h2 class="h5 m-0">@Model.Name</h2>

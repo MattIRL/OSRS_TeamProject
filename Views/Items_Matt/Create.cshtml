@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/css/matt.css" asp-append-version="true" />
 }
 
-<div class="rsfont">
+<div class="rsfont text-light center-container">
     <h1>Add Item</h1>
     <hr />
 
@@ -67,17 +67,6 @@
                     <label asp-for="Notes" class="form-label">Notes</label>
                     <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Your notes (≤ 300 chars)"></textarea>
                     <span asp-validation-for="Notes" class="text-danger"></span>
-                </div>
-
-                <!-- 7) Icon URL -->
-                <div class="mb-3">
-                    <label asp-for="IconUrl" class="form-label">Icon URL <span class="text-muted">(optional)</span></label>
-                    <input asp-for="IconUrl" class="form-control" placeholder="https://static.runelite.net/cache/item/icon/{id}.png" aria-describedby="iconHelp" />
-                    <small id="iconHelp" class="form-text text-muted">Left blank? We’ll set it from the Item ID on save.</small>
-                    <span asp-validation-for="IconUrl" class="text-danger"></span>
-                    <div class="mt-2">
-                        <img id="iconPreview" src="~/img/placeholder-item.svg" alt="icon preview" width="40" height="40" style="object-fit:contain;border:1px solid #0f151c;border-radius:6px;padding:2px" />
-                    </div>
                 </div>
 
                 <div class="mb-3">
