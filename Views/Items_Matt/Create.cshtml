@@ -1,0 +1,168 @@
+﻿@model OSRS_TeamProject.Models.InventoryItem
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Styles {
+    <!-- Silkscreen font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <!-- Matt theme -->
+    <link rel="stylesheet" href="~/css/matt.css" asp-append-version="true" />
+}
+
+<div class="rsfont">
+    <h1>Add Item</h1>
+    <hr />
+
+    <!-- 1) Catalog search (auto-fill) -->
+    <fieldset class="mb-4">
+        <legend class="h5 mb-3">Catalog Lookup (auto-fill)</legend>
+        <label for="catQuery" class="form-label">Search RuneScape catalog <span class="text-muted">(type at least 2 characters)</span></label>
+        <input id="catQuery" class="form-control" placeholder="e.g., whip, rune, lobster" autocomplete="off" />
+        <div id="catResults" class="list-group mt-2"></div>
+        <small class="text-muted">Pick a result to auto-fill <strong>Item ID</strong>, <strong>Item Name</strong>, and <strong>Description</strong>. You still set <strong>Count</strong> and <strong>Notes</strong>.</small>
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-7">
+            <form asp-action="Create" method="post" autocomplete="off">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <!-- 2) Item ID -->
+                <div class="mb-3">
+                    <label asp-for="ItemId" class="form-label">Item ID <span class="text-muted">(from catalog)</span></label>
+                    <input asp-for="ItemId" class="form-control" type="number" min="0" placeholder="e.g., 4151" aria-describedby="itemIdHelp" />
+                    <small id="itemIdHelp" class="form-text text-muted">Numeric OSRS item id. Selecting a catalog result fills this in.</small>
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                </div>
+
+                <!-- 3) Name -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Item Name <span class="text-danger">*</span></label>
+                    <input asp-for="Name" class="form-control" placeholder="Abyssal whip" aria-describedby="nameHelp" />
+                    <small id="nameHelp" class="form-text text-muted">2–80 characters.</small>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- 4) Count -->
+                <div class="mb-3">
+                    <label asp-for="Quantity" class="form-label">Count <span class="text-danger">*</span></label>
+                    <input asp-for="Quantity" class="form-control" type="number" min="0" placeholder="0" aria-describedby="qtyHelp" />
+                    <small id="qtyHelp" class="form-text text-muted">Must be 0 or more.</small>
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+
+                <!-- 5) Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Short description (≤ 300 chars)"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- 6) Notes -->
+                <div class="mb-3">
+                    <label asp-for="Notes" class="form-label">Notes</label>
+                    <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Your notes (≤ 300 chars)"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <!-- 7) Icon URL -->
+                <div class="mb-3">
+                    <label asp-for="IconUrl" class="form-label">Icon URL <span class="text-muted">(optional)</span></label>
+                    <input asp-for="IconUrl" class="form-control" placeholder="https://static.runelite.net/cache/item/icon/{id}.png" aria-describedby="iconHelp" />
+                    <small id="iconHelp" class="form-text text-muted">Left blank? We’ll set it from the Item ID on save.</small>
+                    <span asp-validation-for="IconUrl" class="text-danger"></span>
+                    <div class="mt-2">
+                        <img id="iconPreview" src="~/img/placeholder-item.svg" alt="icon preview" width="40" height="40" style="object-fit:contain;border:1px solid #0f151c;border-radius:6px;padding:2px" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // --- Live icon preview & ItemId -> IconUrl convenience ---
+        const iconInput = document.getElementById('IconUrl');
+        const iconImg   = document.getElementById('iconPreview');
+        const itemIdInp = document.getElementById('ItemId');
+        const placeholderIcon = '@Url.Content("~/img/placeholder-item.svg")';
+
+        function refreshIconPreview() {
+          iconImg.src = iconInput.value || placeholderIcon;
+        }
+        if (iconInput && iconImg) {
+          iconInput.addEventListener('input', refreshIconPreview);
+          refreshIconPreview();
+        }
+        if (itemIdInp && iconInput) {
+          itemIdInp.addEventListener('input', () => {
+            if (!iconInput.value && itemIdInp.value) {
+              iconInput.value = `https://static.runelite.net/cache/item/icon/${itemIdInp.value}.png`;
+              refreshIconPreview();
+            }
+          });
+        }
+
+        // --- Catalog search & autofill (requires /catalog/search) ---
+        const q   = document.getElementById('catQuery');
+        const box = document.getElementById('catResults');
+        let t = null;
+
+        q.addEventListener('input', () => {
+          clearTimeout(t);
+          box.innerHTML = '';
+          const v = q.value.trim();
+          if (v.length < 2) return;
+
+          t = setTimeout(async () => {
+            try {
+              const res = await fetch(`/catalog/search?q=${encodeURIComponent(v)}`);
+              if (!res.ok) return;
+              const items = await res.json();
+              if (!Array.isArray(items)) return;
+
+              box.innerHTML = items.map(i => `
+                <button type="button" class="list-group-item list-group-item-action"
+                        data-id="${i.itemId}" data-name="${i.name}" data-desc="${i.description ?? ''}">
+                  <div class="d-flex w-100 justify-content-between">
+                    <strong>${i.name}</strong><small>ID ${i.itemId}</small>
+                  </div>
+                  <div class="small text-muted">${i.description ?? ''}</div>
+                </button>
+              `).join('');
+
+              [...box.querySelectorAll('button')].forEach(b => {
+                b.addEventListener('click', () => {
+                  const id   = b.dataset.id;
+                  const name = b.dataset.name;
+                  const desc = b.dataset.desc || '';
+                  document.getElementById('ItemId').value = id;
+                  document.getElementById('Name').value = name;
+                  const d = document.getElementById('Description'); if (d) d.value = desc;
+                  if (iconInput) {
+                    iconInput.value = `https://static.runelite.net/cache/item/icon/${id}.png`;
+                    refreshIconPreview();
+                  }
+                  box.innerHTML = '';
+                  q.value = name;
+                });
+              });
+            } catch { /* ignore */ }
+          }, 250);
+        });
+    </script>
+}

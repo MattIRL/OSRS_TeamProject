@@ -1,0 +1,31 @@
+﻿.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.item-icon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.item-icon img {
+    position: center;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.qty-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #FF981F;
+    color: black;
+    padding: 1px 5px;
+    font-size: 0.7rem;
+    border-radius: 2px;
+}

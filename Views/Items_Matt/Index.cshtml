@@ -1,0 +1,66 @@
+﻿@model IEnumerable<OSRS_TeamProject.Models.InventoryItem>
+
+@{
+    ViewData["Title"] = "Matt's Inventory";
+    var search = (string?)ViewData["Search"] ?? "";
+    var minQty = (int?)ViewData["MinQty"];
+    var sort = (string?)ViewData["Sort"] ?? "name";
+    var items = Model ?? Enumerable.Empty<OSRS_TeamProject.Models.InventoryItem>();
+}
+
+@section Styles {
+    <!-- Silkscreen font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <!-- Matt theme -->
+    <link rel="stylesheet" href="~/css/matt.css" asp-append-version="true" />
+}
+
+<div class="rsfont">
+    <div class="container-fluid p-0">
+
+        <h1 class="mb-3 text-light">@ViewData["Title"]</h1>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-sm-5">
+                <input name="search" class="form-control" placeholder="Search by name" value="@search" />
+            </div>
+            <div class="col-sm-3">
+                <input name="minQty" class="form-control" type="number" min="0" placeholder="Min qty" value="@(minQty?.ToString() ?? "")" />
+            </div>
+            <div class="col-sm-4">
+                <button class="btn btn-primary me-2" type="submit">Apply</button>
+                <a class="btn btn-secondary" href="/matt">Reset</a>
+                <a class="btn btn-success float-end" asp-action="Create">Add Item</a>
+            </div>
+        </form>
+
+        @if (!items.Any())
+        {
+            <div class="alert alert-info">
+                Your inventory is empty.
+                <a class="btn btn-sm btn-primary ms-2" asp-action="Create">Add Item</a>
+            </div>
+        }
+        else
+        {
+            <div class="item-grid m-4" style="background: #494034; border-radius: 5px">
+                
+                @foreach (var item in items)
+                {
+                    var icon = string.IsNullOrWhiteSpace(item.IconUrl)
+                    ? Url.Content("~/img/placeholder-item.svg")
+                    : item.IconUrl!;
+
+                    <div class="item-icon" title="@item.Name.ToUpper()">
+                        <a class="btn btn-sm" style="background: #D9D9D9" asp-action="Details" asp-route-id="@item.ItemId"><img src="https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id=@item.ItemId" alt="@item.Name" /></a>
+                        <span class="qty-badge">@item.Quantity</span>
+                        
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
+</div>
