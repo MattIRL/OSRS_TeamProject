@@ -51,7 +51,7 @@
                     ? Url.Content("~/img/placeholder-item.svg")
                     : $"https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id={item.ItemId}"!;
 
-                    <div class="item-icon" title="@item.Name.ToUpper()">
+                    <div class="item-icon" title="Name: @item.Name.ToUpper()&#10;ID: @item.ItemId&#10;Description: @item.Description">
                         <a asp-action="Details" asp-route-id="@item.ItemId"><img src="@icon" alt="@item.Name" /></a>
                         <span class="qty-badge">@item.Quantity</span>
                         
