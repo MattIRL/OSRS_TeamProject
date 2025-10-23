@@ -51,3 +51,14 @@
     box-shadow: 2px 2px 2px black;
     text-shadow: 1px 1px 1px black;
 }
+
+.yellow-btn {
+    background-color: #FF981F;
+    color: white;
+}
+
+.yellow-btn:hover {
+    background-color: #cd7e22;
+    color: white;
+}
+

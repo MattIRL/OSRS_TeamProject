@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 style="color: #FF981F; text-shadow: 2px 2px 2px black;">@ViewData["Title"]</h1>
-            <a class="btn text-white btn-shadow" style="background-color: #FF981F;" asp-action="Create">Add Item</a>
+            <a class="btn yellow-btn btn-shadow" asp-action="Create">Add Item</a>
         </div>
         <hr />
         <div class="text-dark p-sm-2" style="background: #D9D9D9; border-radius: 5px;">
@@ -48,7 +48,7 @@
         <dd class="col-sm-10">@Model.Notes</dd>
     </dl>
             <div class="mt-3">
-                <a class="btn text-white me-2 btn-shadow" style="background: #FF981F;" asp-action="Edit" asp-route-id="@Model.ItemId">Edit</a>
+                <a class="btn yellow-btn me-2 btn-shadow" asp-action="Edit" asp-route-id="@Model.ItemId">Edit</a>
                 <a class="btn me-2 btn-secondary btn-shadow" asp-action="Index">Back to Inventory</a>
                 <a class="btn btn-danger me-2 float-sm-end btn-shadow" asp-action="Delete" asp-route-id="@Model.ItemId">Delete</a>
             </div>

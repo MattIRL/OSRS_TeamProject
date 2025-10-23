@@ -21,7 +21,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 style="color: #FF981F; text-shadow: 2px 2px 2px black;">@ViewData["Title"]</h1>
-            <a class="btn text-white btn-shadow" style="background-color: #FF981F; " asp-action="Create">Add Item</a>
+            <a class="btn btn-shadow yellow-btn" asp-action="Create">Add Item</a>
         </div>
 
         <form method="get" class="row g-2 mb-3">
@@ -29,7 +29,7 @@
                 <input name="search" class="form-control" style="box-shadow: 2px 2px 2px black" placeholder="Search by name" value="@search" />
             </div>
             <div class="col-sm-4">
-                <button class="btn text-white me-2 btn-shadow" style="background-color: #FF981F; " type="submit">Apply</button>
+                <button class="btn me-2 btn-shadow yellow-btn"type="submit">Apply</button>
                 <a class="btn btn-secondary mt-md-0 mt-sm-2 btn-shadow" href="/matt">Reset</a>
             </div>
         </form>
