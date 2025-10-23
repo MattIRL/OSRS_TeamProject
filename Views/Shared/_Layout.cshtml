@@ -16,7 +16,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3 rsfont">
             <div class="container-fluid">
-                <a class="navbar-brand m-1 ms-3 me-3" asp-area="" asp-controller="Home" asp-action="Index"><img src="img/OSRS_Inventory.png" style="max-height: 100px;"/></a>
+                <a class="navbar-brand m-1 ms-3 me-3" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/img/OSRS_Inventory.png" style="max-height: 100px;"/></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,14 +27,21 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item me-3">
+                            <a class="nav-link text-light" href="/liam">Liam</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link text-light" href="#">Jack</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link text-light" href="/matt">Matt</a>
+                        </li>
+                        <li class="nav-item me-3 ms-auto">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item me-3">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
                         </li>
-                        <li 
-                            class="nav-item"><a class="nav-link" href="/liam">Liam</a>
-                        </li>
+
 
                     </ul>
                 </div>
