@@ -26,6 +26,7 @@
     background: #D9D9D9;
     border-radius: 5px;
     margin-top: 15px;
+    box-shadow: 2px 2px 2px black;
 }
 
 .item-icon img {
@@ -37,11 +38,16 @@
 
 .qty-badge {
     position: absolute;
-    top: 2px;
-    right: 2px;
-    background: #FF981F;
-    color: black;
+    top: 0px;
+    left: 0px;
+    color: #FF981F;
+    text-shadow: 1px 1px 1px black;
     padding: 1px 5px;
-    font-size: 0.7rem;
+    font-size: 1.2rem;
     border-radius: 5px;
+}
+
+.btn-shadow {
+    box-shadow: 2px 2px 2px black;
+    text-shadow: 1px 1px 1px black;
 }

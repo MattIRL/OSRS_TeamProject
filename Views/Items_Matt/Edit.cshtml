@@ -1,7 +1,7 @@
 ﻿@model OSRS_TeamProject.Models.InventoryItem
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Item";
 }
 
 @section Styles {
@@ -14,24 +14,26 @@
 }
 
 <div class="text-light rsfont center-container">
-    <h1>Edit Item</h1>
+    <div class="container-fluid">
+        <h1 style="color: #FF981F; text-shadow: 2px 2px 2px black;">@ViewData["Title"]</h1>
     <hr />
 
-    <div class="row g-3 align-items-center mb-3">
-        <div class="col-auto">
-            @{
-                var icon = string.IsNullOrWhiteSpace(Model.IconUrl)
-                ? Url.Content("~/img/placeholder-item.svg")
-                : Model.IconUrl!;
-            }
-            <img id="iconPreview" src="@icon" alt="icon" width="64" height="64"
-                 style="object-fit:contain;border-radius:5px;padding:4px;background:#D9D9D9" />
+    <div class="text-dark p-sm-2" style="background: #D9D9D9; border-radius: 5px;">
+        <div class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                @{
+                    var icon = string.IsNullOrWhiteSpace(Model.IconUrl)
+                    ? Url.Content("~/img/placeholder-item.svg")
+                    : $"https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id={Model.ItemId}"!;
+                }
+                <img src="@icon" alt="icon" width="96" height="96"
+                     style="object-fit:contain;border-radius:5px;padding:4px;border:2px solid #494034; " />
+            </div>
+            <div class="col d-flex justify-content-between align-items-center">
+                <h2 class="h4 m-0">@Model.Name</h2>
+                <div class="h5">@Model.Quantity <span class="text-muted me-sm-2">in inventory</span></div>
+            </div>
         </div>
-        <div class="col">
-            <h2 class="h5 m-0">@Model.Name</h2>
-            <div>&nbsp&nbsp @Model.Quantity<span class="text-muted"> in inventory</span></div>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-md-7">
@@ -50,7 +52,7 @@
 
                 <!-- Quantity -->
                 <div class="mb-3">
-                    <label asp-for="Quantity" class="form-label">Count <span class="text-danger">*</span></label>
+                    <label asp-for="Quantity" class="form-label">Quantity <span class="text-danger">*</span></label>
                     <input asp-for="Quantity" class="form-control" type="number" min="0" placeholder="0" aria-describedby="qtyHelp" />
                     <small id="qtyHelp" class="form-text text-muted">Must be 0 or more.</small>
                     <span asp-validation-for="Quantity" class="text-danger"></span>
@@ -71,11 +73,12 @@
                 </div>
 
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+                    <button type="submit" class="btn text-white btn-shadow" style="background-color: #FF981F">Save</button>
+                    <a asp-action="Index" class="btn btn-secondary ms-2 btn-shadow">Cancel</a>
                 </div>
             </form>
         </div>
+    </div>
     </div>
 </div>
 
