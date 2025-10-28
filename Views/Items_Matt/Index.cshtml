@@ -25,15 +25,35 @@
         </div>
 
         <form method="get" class="row g-2 mb-3">
-            <div class="col-sm-5 me-2">
+            <div class="col-sm-auto me-2">
                 <input name="search" class="form-control" style="box-shadow: 2px 2px 2px black" placeholder="Search by name" value="@search" />
             </div>
-            <div class="col-sm-4">
-                <button class="btn me-2 btn-shadow yellow-btn"type="submit">Apply</button>
-                <a class="btn btn-secondary mt-md-0 mt-sm-2 btn-shadow" href="/matt">Reset</a>
+            <div class="col-sm-auto">
+                <button class="btn me-2 btn-shadow yellow-btn" type="submit">Apply</button>
+                <a class="btn btn-secondary mt-md-0 btn-shadow" href="/matt">Reset</a>
             </div>
         </form>
+        <div>
+            @Html.ActionLink(
+            "Sort ID",
+                        "Index",
+                        new { search, minQty, sort = sort == "id" ? "id_desc" : "id" },
+                        new { @class = "btn btn-shadow btn-secondary me-sm-2" }
+                        )
+            @Html.ActionLink(
+                        "Sort Name",
+                        "Index",
+                        new { search, minQty, sort = sort == "name" ? "name_desc" : "name" },
+                        new { @class = "btn btn-shadow btn-secondary me-sm-2" }
+                        )
+            @Html.ActionLink(
+                        "Sort Qty",
+                        "Index",
+                        new { search, minQty, sort = sort == "qty" ? "qty_desc" : "qty" },
+                        new { @class = "btn btn-shadow btn-secondary me-sm-2 me-sm-2" }
+                        )
 
+        </div>
         @if (!items.Any())
         {
             <div class="alert alert-info">
@@ -44,17 +64,17 @@
         else
         {
             <div class="item-grid mt-2 pb-4">
-                
+
                 @foreach (var item in items)
                 {
                     var icon = string.IsNullOrWhiteSpace(item.IconUrl)
                     ? Url.Content("~/img/placeholder-item.svg")
-                    : $"https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id={item.ItemId}"!;
+                    : $"https://secure.runescape.com/m=itemdb_oldschool/obj_big.gif?id={item.ItemId}"!;
 
                     <div class="item-icon" title="Name: @item.Name.ToUpper()&#10;ID: @item.ItemId&#10;Description: @item.Description">
                         <a asp-action="Details" asp-route-id="@item.ItemId"><img src="@icon" alt="@item.Name" /></a>
                         <span class="qty-badge">@item.Quantity</span>
-                        
+
                     </div>
                 }
             </div>
