@@ -1,0 +1,60 @@
+﻿@model OSRS_TeamProject.Models.InventoryItem
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+@section Styles {
+    <!-- Silkscreen font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <!-- Jack theme -->
+    <link rel="stylesheet" href="~/css/jack.css" asp-append-version="true" />
+}
+
+<div class="rsfont text-light center-container">
+    <h1>Delete Item</h1>
+    <hr />
+
+    <div class="h5 bg-danger mb-4 p-sm-3">
+        Are you sure you want to permanently delete <strong style="text-shadow: 2px 2px 2px black">@Model.Name</strong>?
+    </div>
+    <div class="text-dark p-sm-2" style="background: #D9D9D9; border-radius: 5px;">
+        <div class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+                @{
+                    var icon = string.IsNullOrWhiteSpace(Model.IconUrl)
+                    ? Url.Content("~/img/placeholder-item.svg")
+                    : $"https://secure.runescape.com/m=itemdb_oldschool/1761128977838_obj_big.gif?id={Model.ItemId}"!;
+                }
+                <img src="@icon" alt="icon" width="96" height="96"
+                     style="object-fit:contain;border-radius:5px;padding:4px;border:2px solid #494034; " />
+            </div>
+            <div class="col d-flex justify-content-between align-items-center">
+                <h2 class="h4 m-0">@Model.Name</h2>
+                <div class="h5">@Model.Quantity <span class="text-muted me-sm-2">in inventory</span></div>
+            </div>
+            <div class="text-muted mt-0">ID: @Model.ItemId</div>
+        </div>
+
+        <dl class="row">
+
+            <dt class="col-sm-2">Quantity</dt>
+            <dd class="col-sm-10">@Model.Quantity</dd>
+
+            <dt class="col-sm-2">Description</dt>
+            <dd class="col-sm-10">@Model.Description</dd>
+
+            <dt class="col-sm-2">Notes</dt>
+            <dd class="col-sm-10">@Model.Notes</dd>
+        </dl>
+
+        <form asp-action="Delete" method="post" class="d-flex mt-3 justify-content-end">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ItemId" />
+            <button type="submit" class="btn btn-danger btn-shadow">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2 btn-shadow">Cancel</a>
+        </form>
+    </div>
+</div>
